@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Detection Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1f1f1f;
+    padding: 15px; /* Adjusted padding */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000; /* Ensures navbar is above other elements */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: 600;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 10px; /* Adjusted gap */
+    margin: 0;
+    margin-right: 110px;
+    padding: 0;
+}
+
+.navbar-links li {
+    position: relative; /* Set relative position for dropdown */
+}
+
+.navbar-links li a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.navbar-links li a:hover {
+    color: #ffffff;
+    background-color: #007bff;
+    border-radius: 5px;
+}
+
+/* Dropdown Styles */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color:white;
+    min-width: 160px;
+    z-index: 1;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: #e0e0e0;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+    .navbar-links {
+        flex-direction: column; /* Stack links vertically on small screens */
+        align-items: center; /* Center the links */
+        width: 100%; /* Full width for mobile */
+        padding: 10px 0; /* Add vertical spacing */
+    }
+
+    .navbar-links li {
+        margin-bottom: 10px; /* Spacing between items */
+    }
+}
+
+
+/* Dropdown Styles */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #1e1e1e;
+    min-width: 160px;
+    z-index: 1;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: #e0e0e0;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding-top: 80px; /* To prevent overlap with fixed navbar */
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .result {
+            font-size: 22px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .genuine {
+            color: #28a745; /* Green */
+        }
+
+        .deepfake {
+            color: #dc3545; /* Red */
+        }
+
+        .button-container {
+            margin-top: 30px;
+        }
+
+        .back-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">DeepfakeDetect</a>
+        <ul class="navbar-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">More</a>
+                <div class="dropdown-content">
+                    <a href="#">FAQs</a>
+                    <a href="#">Support</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+
+        <!-- Main Content -->
+        <div class="main-container">
+            <div class="container">
+                <h1>Deepfake Detection Result</h1>
+                <p class="result {% if result.strip().lower() == 'genuine' %}genuine{% else %}deepfake{% endif %}">
+                    {{ result }}
+                </p>
+                <div class="button-container">
+                    <button class="back-button" onclick="goBack()">Analyze Another File</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function goBack() {
+                window.location.href = "/";
+            }
+        </script>
+</body>
+</html>
